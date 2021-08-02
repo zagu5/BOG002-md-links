@@ -12,20 +12,35 @@ const absolute = path.isAbsolute(routeFile);
 // console.log('la ruta es ' + absolute)
 
 
-function readFiles(route){
-  return new Promise ((resolve,reject) => {
-    fs.readFile(route, 'utf8', function(err, data) {
-      if (err) {
-        return reject(err);
-      }
-      resolve(data);
-    });
+// function readFiles(route){
+//   return new Promise ((resolve,reject) => {
+//     fs.readFile(route, 'utf8', function(err, data) {
+//       if (err) {
+//         return reject(err);
+//       }
+//       resolve(data);
+//     });
+//   })
+// }
+
+// readFiles(routeFile)
+// .then((response)=>{
+//   console.log(response)
+// })
+// .catch((err)=>{
+//   console.log(err)
+// })
+
+function extFiles(route){
+  return new Promise((resolve, reject)=>{
+    const extFile = path.extname(route);
+    resolve(extFile)
   })
 }
 
-readFiles(routeFile)
+extFiles(routeFile)
 .then((response)=>{
-  console.log(response)
+  console.log('el archivo es de extension ' + response)
 })
 .catch((err)=>{
   console.log(err)
@@ -34,23 +49,23 @@ readFiles(routeFile)
 // const extFile = path.extname(routeFile);
 // console.log('el archivo es de extension'+ extFile)
 
-function readDirectory(route){
-  return new Promise((resolve, reject)=>{
-    fs.readdir(route, 'utf-8', function(err,files){
-      if (err) {
-        return reject(err);
-      }
-      resolve(files);
-    })
-  })
-}
+// function readDirectory(route){
+//   return new Promise((resolve, reject)=>{
+//     fs.readdir(route, 'utf-8', function(err,files){
+//       if (err) {
+//         return reject(err);
+//       }
+//       resolve(files);
+//     })
+//   })
+// }
 
-readDirectory(routeDir)
-.then((response)=>{
-  console.log(response)
-})
-.catch((err)=>{
-  console.log(err)
-})
+// readDirectory(routeDir)
+// .then((response)=>{
+//   console.log(response)
+// })
+// .catch((err)=>{
+//   console.log(err)
+// })
 
 
