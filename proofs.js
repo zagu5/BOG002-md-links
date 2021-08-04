@@ -1,7 +1,7 @@
-const { readFileSync, link } = require('fs');
+const { readFileSync } = require('fs');
 const markdownLinkExtractor = require('markdown-link-extractor');
-const routeFile = ('C:\\BOG002-md-links\\archivos\\prueba.md');
 
+const routeFile = ('C:\\BOG002-md-links\\archivos\\prueba.md');
 const markdown = readFileSync(routeFile, {encoding: 'utf8'});
 
 // const links = markdownLinkExtractor(markdown, false);
@@ -10,13 +10,15 @@ const markdown = readFileSync(routeFile, {encoding: 'utf8'});
 // const details = markdownLinkExtractor(markdown, true);
 // details.forEach(detail => console.log(detail));
 
-const getLink = markdownLinkExtractor(markdown, true)
+function getLinks(route, dataFile){
+  const getLink = markdownLinkExtractor(dataFile, true)
+  // console.log(getLink)
   // console.log('este es getLink', getLink)
   const links = []
     getLink.forEach(link => {
       // console.log(getLink.href)
       const fileLink = {
-        file: routeFile,
+        file: route,
         href: link.href,
         text: link.text,
       };
@@ -24,15 +26,25 @@ const getLink = markdownLinkExtractor(markdown, true)
       console.log (links)
 });
 return links
-
+}
+// getLinks(routeFile, markdown)
 
 
 // extrayendo links con el metodo map
-// const getLink = markdownLinkExtractor(markdown, true)
-// const linkFile = [{
-//       file: routeFile,
-//       href: getLink.href,
-//       text: getLink.text,
-//      }];
-//   const links = linkFile.map(link => link.href)
-//   console.log(links)
+function getLinks(route, dataFile){
+  const getLink = markdownLinkExtractor(dataFile, true)
+  //console.log(getLink)
+    const links = getLink.map(link => {
+      const fileLink = {
+        file: route,
+        href: link.href,
+        text: link.text,
+       };
+       return fileLink
+      })
+    console.log(links)
+}
+getLinks(routeFile, markdown)
+
+
+// recibir un array de ibjetos y hacer peticion http para conocer el status de la pagina (axios,fetch)
