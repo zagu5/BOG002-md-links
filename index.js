@@ -8,6 +8,8 @@ const { resolve } = require('path');
 const routeFile = ('C:\\BOG002-md-links\\archivos\\prueba.md');
 const routeDir = ('C:\\BOG002-md-links\\archivos')
 
+
+
 function isAbsolute(route){
   return new Promise((resolve, reject)=>{
     const isAbsolute = path.isAbsolute(route);
