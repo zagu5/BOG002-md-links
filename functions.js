@@ -3,26 +3,11 @@ const fs = require('fs');
 const { resolve } = require('path');
 const { readFileSync } = require('fs');
 const markdownLinkExtractor = require('markdown-link-extractor');
+const axios = require('axios');
 
 const routeFile = ('C:\\BOG002-md-links\\archivos\\prueba.md');
 const routeDir = ('C:\\BOG002-md-links\\archivos')
 const markdown = readFileSync(routeFile, {encoding: 'utf8'});
-
-// extrayendo links con el metodo map
-function getLinks(route, dataFile){
-  const getLink = markdownLinkExtractor(dataFile, true)
-  //console.log(getLink)
-    const links = getLink.map(link => {
-      const fileLink = {
-        file: route,
-        href: link.href,
-        text: link.text,
-       };
-       return fileLink
-      })
-    console.log(links)
-}
-getLinks(routeFile, markdown)
 
 
 function isAbsolute(route){
@@ -95,5 +80,38 @@ readDirectory(routeDir)
   console.log(err)
 })
 
+// extrayendo links con el metodo map
+function getLinks(route, dataFile){
+  const getLink = markdownLinkExtractor(dataFile, true)
+  //console.log(getLink)
+    const links = getLink.map(link => {
+      const fileLink = {
+        file: route,
+        href: link.href,
+        text: link.text,
+       };
+       return fileLink
+      })
+    console.log(links)
+}
+getLinks(routeFile, markdown)
+
+function getHttpRequest(linkUrl){
+  axios
+  .get(linkUrl)
+  .then((response) => {
+    {
+    console.log('Status: ',response.status)
+    console.log('Message: ',response.statusText)
+    }
+  })
+  .catch((error) => {
+    if(error.response){
+      console.log(error.response.status);
+    } else{
+      console.log('Ha ocurrido un error: ', error.message)
+    }
+  })
+} getHttpRequest('https://http.cat/')
 
 
