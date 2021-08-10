@@ -97,21 +97,40 @@ function getLinks(route, dataFile){
 getLinks(routeFile, markdown)
 
 function getHttpRequest(linkUrl){
-  axios
-  .get(linkUrl)
-  .then((response) => {
-    {
-    console.log('Status: ',response.status)
-    console.log('Message: ',response.statusText)
-    }
+  //console.log(linkUrl)
+  return new Promise ((resolve) => {
+    axios
+    .get(linkUrl.href)
+    .then((response) => {
+      resolve (
+      {
+      href: linkUrl.href,
+      text: linkUrl.text,
+      file: linkUrl.file,
+      status: response.status,
+      statusText: response.statusText
+      })
+    })
+    .catch((error) => {
+      resolve({
+         href:linkUrl.href,
+          text: linkUrl.text,
+          file: linkUrl.file,
+          status: error.response,
+          statusText: 'Fail'
+      })
+         // console.log('Ha ocurrido un error: ', error.message)
+    })
   })
-  .catch((error) => {
-    if(error.response){
-      console.log(error.response.status);
-    } else{
-      console.log('Ha ocurrido un error: ', error.message)
-    }
-  })
-} getHttpRequest('https://http.cat/')
+}
 
-
+getHttpRequest(
+   {
+    href: 'https://http.ca/',
+    text: 'texto',
+    file: 'ruta del archivo',
+    status: 'Fail'
+ })
+.then((resp)=> {
+  console.log(resp)
+})

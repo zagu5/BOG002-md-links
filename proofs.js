@@ -9,29 +9,13 @@ const routeFile = ('C:\\BOG002-md-links\\archivos\\prueba.md');
 const routeDir = ('C:\\BOG002-md-links\\archivos')
 const markdown = readFileSync(routeFile, {encoding: 'utf8'});
 
-// extrayendo links con el metodo map
-// function getLinks(route, dataFile){
-//   const getLink = markdownLinkExtractor(dataFile, true)
-//   //console.log(getLink)
-//     const links = getLink.map(link => {
-//       const fileLink = {
-//         file: route,
-//         href: link.href,
-//         text: link.text,
-//        };
-//        return fileLink
-//       })
-//     console.log(links)
-// }
-// getLinks(routeFile, markdown)
 
-
-// function isAbsolute(route){
-//   return new Promise((resolve, reject)=>{
-//     const isAbsolute = path.isAbsolute(route);
-//     resolve(isAbsolute)
-//   })
-// }
+function isAbsolute(route){
+  return new Promise((resolve, reject)=>{
+    const isAbsolute = path.isAbsolute(route);
+    resolve(isAbsolute)
+  })
+}
 
 // isAbsolute(routeFile)
 // .then((response)=>{
@@ -41,16 +25,16 @@ const markdown = readFileSync(routeFile, {encoding: 'utf8'});
 //   console.log(err)
 // })
 
-// function readFiles(route){
-//   return new Promise ((resolve,reject) => {
-//     fs.readFile(route, 'utf8', function(err, data) {
-//       if (err) {
-//         return reject(err);
-//       }
-//       resolve(data);
-//     });
-//   })
-// }
+function readFiles(route){
+  return new Promise ((resolve,reject) => {
+    fs.readFile(route, 'utf8', function(err, data) {
+      if (err) {
+        return reject(err);
+      }
+      resolve(data);
+    });
+  })
+}
 
 // readFiles(routeFile)
 // .then((response)=>{
@@ -61,12 +45,12 @@ const markdown = readFileSync(routeFile, {encoding: 'utf8'});
 //   console.log(err)
 // })
 
-// function extFiles(route){
-//   return new Promise((resolve, reject)=>{
-//     const extFile = path.extname(route);
-//     resolve(extFile)
-//   })
-// }
+function extFiles(route){
+  return new Promise((resolve, reject)=>{
+    const extFile = path.extname(route);
+    resolve(extFile)
+  })
+}
 
 // extFiles(routeFile)
 // .then((response)=>{
@@ -76,16 +60,16 @@ const markdown = readFileSync(routeFile, {encoding: 'utf8'});
 //   console.log(err)
 // })
 
-// function readDirectory(route){
-//   return new Promise((resolve, reject)=>{
-//     fs.readdir(route, 'utf-8', function(err,files){
-//       if (err) {
-//         return reject(err);
-//       }
-//       resolve(files);
-//     })
-//   })
-// }
+function readDirectory(route){
+  return new Promise((resolve, reject)=>{
+    fs.readdir(route, 'utf-8', function(err,files){
+      if (err) {
+        return reject(err);
+      }
+      resolve(files);
+    })
+  })
+}
 
 // readDirectory(routeDir)
 // .then((response)=>{
@@ -115,26 +99,63 @@ const markdown = readFileSync(routeFile, {encoding: 'utf8'});
 // }
 // getLinks(routeFile, markdown)
 
+// extrayendo links con el metodo map
+function getLinks(route, dataFile){
+  const getLink = markdownLinkExtractor(dataFile, true)
+  //console.log(getLink)
+    const links = getLink.map(link => {
+      const fileLink = {
+        file: route,
+        href: link.href,
+        text: link.text,
+       };
+       return fileLink
+      })
+    console.log(links)
+}
+// getLinks(routeFile, markdown)
 
 // recibir un array de objetos y hacer peticion http para conocer el status de la pagina (axios,fetch)
 
+
 function getHttpRequest(linkUrl){
-  axios
-  .get(linkUrl)
-  .then((response) => {
-    {
-    console.log('Status: ',response.status)
-    console.log('Message: ',response.statusText)
-    }
+  //console.log(linkUrl)
+  return new Promise ((resolve) => {
+    axios
+    .get(linkUrl.href)
+    .then((response) => {
+      resolve (
+      {
+      href: linkUrl.href,
+      text: linkUrl.text,
+      file: linkUrl.file,
+      status: response.status,
+      statusText: response.statusText
+      })
+    })
+    .catch((error) => {
+      resolve({
+         href:linkUrl.href,
+          text: linkUrl.text,
+          file: linkUrl.file,
+          status: error.response,
+          statusText: 'Fail'
+      })
+         // console.log('Ha ocurrido un error: ', error.message)
+    })
   })
-  .catch((error) => {
-    if(error.response){
-      console.log(error.response.status);
-    } else{
-      console.log('Ha ocurrido un error: ', error.message)
-    }
-  })
-} getHttpRequest('https://http.cat/')
+}
+
+getHttpRequest(
+   {
+    href: 'https://http.ca/',
+    text: 'texto',
+    file: 'ruta del archivo',
+    status: 'Fail'
+ })
+.then((resp)=> {
+  console.log(resp)
+})
 
 
 //'https://http.cat/'
