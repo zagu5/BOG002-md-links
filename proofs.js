@@ -103,17 +103,14 @@ function readDirectory(route){
 function getLinks(route, dataFile){
   const getLink = markdownLinkExtractor(dataFile, true)
   //console.log(getLink)
-    const links = getLink.map(link => {
-      const fileLink = {
-        file: route,
-        href: link.href,
-        text: link.text,
-       };
-       return fileLink
-      })
-    console.log(links)
+  return getLink.map(link => ({
+      file: route,
+      href: link.href,
+      text: link.text,
+    })
+  )
 }
-// getLinks(routeFile, markdown)
+console.log(getLinks(routeFile, markdown))
 
 // recibir un array de objetos y hacer peticion http para conocer el status de la pagina (axios,fetch)
 
@@ -133,16 +130,15 @@ function getHttpRequest(linkUrl){
       statusText: response.statusText
       })
     })
-    .catch((error) => {
-      resolve({
-         href:linkUrl.href,
+    .catch(error =>
+         resolve({
+          href: linkUrl.href,
           text: linkUrl.text,
           file: linkUrl.file,
-          status: error.response,
+          status: 404,
           statusText: 'Fail'
-      })
-         // console.log('Ha ocurrido un error: ', error.message)
-    })
+        })
+    )
   })
 }
 
@@ -150,14 +146,28 @@ getHttpRequest(
    {
     href: 'https://http.ca/',
     text: 'texto',
-    file: 'ruta del archivo',
-    status: 'Fail'
+    file: 'ruta del archivo'
  })
 .then((resp)=> {
-  console.log(resp)
+ // console.log(resp)
 })
 
 
 //'https://http.cat/'
 
 
+
+// function getLinks(route, dataFile){
+//   const getLink = markdownLinkExtractor(dataFile, true)
+//   //console.log(getLink)
+//     const links = getLink.map(link => {
+//       const fileLink = {
+//         file: route,
+//         href: link.href,
+//         text: link.text,
+//        };
+//        return fileLink
+//       })
+//     console.log(links)
+// }
+// getLinks(routeFile, markdown)

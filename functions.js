@@ -9,7 +9,7 @@ const routeFile = ('C:\\BOG002-md-links\\archivos\\prueba.md');
 const routeDir = ('C:\\BOG002-md-links\\archivos')
 const markdown = readFileSync(routeFile, {encoding: 'utf8'});
 
-
+// verificando si la ruta es absoluta
 function isAbsolute(route){
   return new Promise((resolve, reject)=>{
     const isAbsolute = path.isAbsolute(route);
@@ -25,6 +25,7 @@ isAbsolute(routeFile)
   console.log(err)
 })
 
+// leyendo el contenido de un archivo
 function readFiles(route){
   return new Promise ((resolve,reject) => {
     fs.readFile(route, 'utf8', function(err, data) {
@@ -45,6 +46,7 @@ readFiles(routeFile)
   console.log(err)
 })
 
+// Averiguando la extension de un archivo
 function extFiles(route){
   return new Promise((resolve, reject)=>{
     const extFile = path.extname(route);
@@ -60,6 +62,7 @@ extFiles(routeFile)
   console.log(err)
 })
 
+// Leyendo el contenido de un directorio
 function readDirectory(route){
   return new Promise((resolve, reject)=>{
     fs.readdir(route, 'utf-8', function(err,files){
@@ -80,22 +83,20 @@ readDirectory(routeDir)
   console.log(err)
 })
 
-// extrayendo links con el metodo map
+// extrayendo links
 function getLinks(route, dataFile){
   const getLink = markdownLinkExtractor(dataFile, true)
   //console.log(getLink)
-    const links = getLink.map(link => {
-      const fileLink = {
-        file: route,
-        href: link.href,
-        text: link.text,
-       };
-       return fileLink
-      })
-    console.log(links)
+  return getLink.map(link => ({
+      file: route,
+      href: link.href,
+      text: link.text,
+    })
+  )
 }
-getLinks(routeFile, markdown)
+console.log(getLinks(routeFile, markdown))
 
+// Peticion http
 function getHttpRequest(linkUrl){
   //console.log(linkUrl)
   return new Promise ((resolve) => {
@@ -113,13 +114,13 @@ function getHttpRequest(linkUrl){
     })
     .catch((error) => {
       resolve({
-         href:linkUrl.href,
-          text: linkUrl.text,
-          file: linkUrl.file,
-          status: error.response,
-          statusText: 'Fail'
+        href:linkUrl.href,
+        text: linkUrl.text,
+        file: linkUrl.file,
+        status: 404,
+        statusText: 'Fail'
       })
-         // console.log('Ha ocurrido un error: ', error.message)
+      // console.log('Ha ocurrido un error: ', error.message)
     })
   })
 }
@@ -129,7 +130,6 @@ getHttpRequest(
     href: 'https://http.ca/',
     text: 'texto',
     file: 'ruta del archivo',
-    status: 'Fail'
  })
 .then((resp)=> {
   console.log(resp)
