@@ -1,19 +1,15 @@
-const functions = require('./proofs');
+const functions = require('./functions.js');
 const routeFile = ('C:\\BOG002-md-links\\archivos\\prueba.md');
 
 function mdLinks(path){
   return new Promise ((resolve, reject) => {
-    const routeVerify = functions.routeAbsolute((path.href));
+    const routeVerify = functions.routeAbsolute((path));
     resolve(routeVerify)
   })
 }
 
 
-// mdLinks({
-//   href: (routeFile),
-//   // text: 'texto',
-//   // file: 'ruta del archivo'
-// })
+// mdLinks(routeFile)
 // .then(links => {
 //   console.log(links)
 // })

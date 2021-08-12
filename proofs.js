@@ -19,7 +19,7 @@ function routeAbsolute(route){
 
 routeAbsolute(routeFile)
 .then((response)=>{
-  // console.log('La ruta es: ' + response)
+  //console.log('La ruta es: ' + response)
 })
 .catch((err)=>{
   //console.log(err)
@@ -56,10 +56,10 @@ function extFiles(route){
 
 extFiles(routeFile)
 .then((response)=>{
-  // console.log('El archivo es de extension: ' + response)
+  //console.log('El archivo es de extension: ' + response)
 })
 .catch((err)=>{
-  // console.log(err)
+   //console.log(err)
 })
 
 // Leyendo el contenido de un directorio
@@ -131,28 +131,26 @@ getHttpRequest(
     file: 'ruta del archivo'
  })
 .then((resp)=> {
- // console.log(resp)
+  //console.log(resp)
 })
 
 //'https://http.cat/'
 
 
-function mdLinks(path){
+function mdLinks(path, options){
   return new Promise ((resolve, reject) => {
-    const routeVerify = routeAbsolute(path.href);
+    const routeVerify = routeAbsolute(path);
     resolve(routeVerify)
   })
 }
 
-mdLinks({
-  href: (routeFile),
-  // text: 'texto',
-  // file: 'ruta del archivo'
-})
+mdLinks(routeFile, false)
 .then(links => {
   console.log(links)
 })
 .catch(console.error)
+
+
 
 
 module.exports = { routeAbsolute, readFiles, extFiles, readDirectory, getLinks, getHttpRequest }
