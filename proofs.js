@@ -11,19 +11,19 @@ const markdown = readFileSync(routeFile, {encoding: 'utf8'});
 
 
 function isAbsolute(route){
-  return new Promise((resolve, reject)=>{
-    const isAbsolute = path.isAbsolute(route);
+  return new Promise((resolve)=>{
+    const isAbsolute = path.isAbsolute(route)? route : path.resolve(route);
     resolve(isAbsolute)
   })
 }
 
-// isAbsolute(routeFile)
-// .then((response)=>{
-//   console.log('La ruta es: ' + response)
-// })
-// .catch((err)=>{
-//   console.log(err)
-// })
+isAbsolute(routeFile)
+.then((response)=>{
+  //console.log('La ruta es: ' + response)
+})
+.catch((err)=>{
+  //console.log(err)
+})
 
 function readFiles(route){
   return new Promise ((resolve,reject) => {
@@ -36,14 +36,14 @@ function readFiles(route){
   })
 }
 
-// readFiles(routeFile)
-// .then((response)=>{
-//   //console.log(response)
-//   console.log('El contenido del archivo es: ' + response)
-// })
-// .catch((err)=>{
-//   console.log(err)
-// })
+readFiles(routeFile)
+.then((response)=>{
+  //console.log(response)
+  //console.log('El contenido del archivo es: ' + response)
+})
+.catch((err)=>{
+  //console.log(err)
+})
 
 function extFiles(route){
   return new Promise((resolve, reject)=>{
@@ -52,13 +52,13 @@ function extFiles(route){
   })
 }
 
-// extFiles(routeFile)
-// .then((response)=>{
-//   console.log('El archivo es de extension: ' + response)
-// })
-// .catch((err)=>{
-//   console.log(err)
-// })
+extFiles(routeFile)
+.then((response)=>{
+  // console.log('El archivo es de extension: ' + response)
+})
+.catch((err)=>{
+  // console.log(err)
+})
 
 function readDirectory(route){
   return new Promise((resolve, reject)=>{
@@ -71,33 +71,14 @@ function readDirectory(route){
   })
 }
 
-// readDirectory(routeDir)
-// .then((response)=>{
-//   //console.log(response)
-//   console.log('Este directorio contiene los archivos: ' + response)
-// })
-// .catch((err)=>{
-//   console.log(err)
-// })
-
-// function getLinks(route, dataFile){
-//   const getLink = markdownLinkExtractor(dataFile, true)
-//   // console.log(getLink)
-//   // console.log('este es getLink', getLink)
-//   const links = []
-//     getLink.forEach(link => {
-//       // console.log(getLink.href)
-//       const fileLink = {
-//         file: route,
-//         href: link.href,
-//         text: link.text,
-//       };
-//       links.push(fileLink)
-//       console.log (links)
-// });
-// return links
-// }
-// getLinks(routeFile, markdown)
+readDirectory(routeDir)
+.then((response)=>{
+  //console.log(response)
+  //console.log('Este directorio contiene los archivos: ' + response)
+})
+.catch((err)=>{
+  //console.log(err)
+})
 
 // extrayendo links con el metodo map
 function getLinks(route, dataFile){
@@ -110,11 +91,9 @@ function getLinks(route, dataFile){
     })
   )
 }
-console.log(getLinks(routeFile, markdown))
+ //console.log(getLinks(routeFile, markdown))
 
-// recibir un array de objetos y hacer peticion http para conocer el status de la pagina (axios,fetch)
-
-
+// recibir un array de objetos y hacer peticion http para conocer el status de la pagina
 function getHttpRequest(linkUrl){
   //console.log(linkUrl)
   return new Promise ((resolve) => {
@@ -152,22 +131,29 @@ getHttpRequest(
  // console.log(resp)
 })
 
-
 //'https://http.cat/'
 
 
+// function mdLinks(path, options){
+//   const
+// }
 
 // function getLinks(route, dataFile){
 //   const getLink = markdownLinkExtractor(dataFile, true)
-//   //console.log(getLink)
-//     const links = getLink.map(link => {
+//   // console.log(getLink)
+//   //console.log('este es getLink', getLink)
+//   const links = []
+//     getLink.forEach(link => {
+//       // console.log(getLink.href)
 //       const fileLink = {
 //         file: route,
 //         href: link.href,
 //         text: link.text,
-//        };
-//        return fileLink
-//       })
-//     console.log(links)
+//       };
+//       links.push(fileLink)
+//       //console.log (links)
+// });
+// return links
 // }
-// getLinks(routeFile, markdown)
+// console.log(getLinks(routeFile, markdown))
+

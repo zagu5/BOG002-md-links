@@ -11,18 +11,18 @@ const markdown = readFileSync(routeFile, {encoding: 'utf8'});
 
 // verificando si la ruta es absoluta
 function isAbsolute(route){
-  return new Promise((resolve, reject)=>{
-    const isAbsolute = path.isAbsolute(route);
+  return new Promise((resolve)=>{
+    const isAbsolute = path.isAbsolute(route)? route : path.resolve(route);
     resolve(isAbsolute)
   })
 }
 
 isAbsolute(routeFile)
 .then((response)=>{
-  console.log('La ruta es: ' + response)
+  //console.log('La ruta es: ' + response)
 })
 .catch((err)=>{
-  console.log(err)
+  //console.log(err)
 })
 
 // leyendo el contenido de un archivo
