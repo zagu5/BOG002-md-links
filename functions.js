@@ -10,16 +10,16 @@ const routeDir = ('C:\\BOG002-md-links\\archivos')
 const markdown = readFileSync(routeFile, {encoding: 'utf8'});
 
 // verificando si la ruta es absoluta
-function isAbsolute(route){
+function routeAbsolute(route){
   return new Promise((resolve)=>{
     const isAbsolute = path.isAbsolute(route)? route : path.resolve(route);
     resolve(isAbsolute)
   })
 }
 
-isAbsolute(routeFile)
+routeAbsolute(routeFile)
 .then((response)=>{
-  //console.log('La ruta es: ' + response)
+  // console.log('La ruta es: ' + response)
 })
 .catch((err)=>{
   //console.log(err)
@@ -40,10 +40,10 @@ function readFiles(route){
 readFiles(routeFile)
 .then((response)=>{
   //console.log(response)
-  console.log('El contenido del archivo es: ' + response)
+  //console.log('El contenido del archivo es: ' + response)
 })
 .catch((err)=>{
-  console.log(err)
+  //console.log(err)
 })
 
 // Averiguando la extension de un archivo
@@ -56,10 +56,10 @@ function extFiles(route){
 
 extFiles(routeFile)
 .then((response)=>{
-  console.log('El archivo es de extension: ' + response)
+  // console.log('El archivo es de extension: ' + response)
 })
 .catch((err)=>{
-  console.log(err)
+  // console.log(err)
 })
 
 // Leyendo el contenido de un directorio
@@ -77,10 +77,10 @@ function readDirectory(route){
 readDirectory(routeDir)
 .then((response)=>{
   //console.log(response)
-  console.log('Este directorio contiene los archivos: ' + response)
+  //console.log('Este directorio contiene los archivos: ' + response)
 })
 .catch((err)=>{
-  console.log(err)
+  //console.log(err)
 })
 
 // extrayendo links
@@ -94,9 +94,9 @@ function getLinks(route, dataFile){
     })
   )
 }
-console.log(getLinks(routeFile, markdown))
+ //console.log(getLinks(routeFile, markdown))
 
-// Peticion http
+//  peticion http para conocer el status de la pagina
 function getHttpRequest(linkUrl){
   //console.log(linkUrl)
   return new Promise ((resolve) => {
@@ -112,16 +112,15 @@ function getHttpRequest(linkUrl){
       statusText: response.statusText
       })
     })
-    .catch((error) => {
-      resolve({
-        href:linkUrl.href,
-        text: linkUrl.text,
-        file: linkUrl.file,
-        status: 404,
-        statusText: 'Fail'
-      })
-      // console.log('Ha ocurrido un error: ', error.message)
-    })
+    .catch(error =>
+         resolve({
+          href: linkUrl.href,
+          text: linkUrl.text,
+          file: linkUrl.file,
+          status: 404,
+          statusText: 'Fail'
+        })
+    )
   })
 }
 
@@ -129,8 +128,16 @@ getHttpRequest(
    {
     href: 'https://http.ca/',
     text: 'texto',
-    file: 'ruta del archivo',
+    file: 'ruta del archivo'
  })
 .then((resp)=> {
-  console.log(resp)
+ // console.log(resp)
 })
+
+//'https://http.cat/'
+
+
+
+
+module.exports = { routeAbsolute, readFiles, extFiles, readDirectory, getLinks, getHttpRequest }
+

@@ -9,22 +9,23 @@ const routeFile = ('C:\\BOG002-md-links\\archivos\\prueba.md');
 const routeDir = ('C:\\BOG002-md-links\\archivos')
 const markdown = readFileSync(routeFile, {encoding: 'utf8'});
 
-
-function isAbsolute(route){
+// verificando si la ruta es absoluta
+function routeAbsolute(route){
   return new Promise((resolve)=>{
     const isAbsolute = path.isAbsolute(route)? route : path.resolve(route);
     resolve(isAbsolute)
   })
 }
 
-isAbsolute(routeFile)
+routeAbsolute(routeFile)
 .then((response)=>{
-  //console.log('La ruta es: ' + response)
+  // console.log('La ruta es: ' + response)
 })
 .catch((err)=>{
   //console.log(err)
 })
 
+// leyendo el contenido de un archivo
 function readFiles(route){
   return new Promise ((resolve,reject) => {
     fs.readFile(route, 'utf8', function(err, data) {
@@ -45,6 +46,7 @@ readFiles(routeFile)
   //console.log(err)
 })
 
+// Averiguando la extension de un archivo
 function extFiles(route){
   return new Promise((resolve, reject)=>{
     const extFile = path.extname(route);
@@ -60,6 +62,7 @@ extFiles(routeFile)
   // console.log(err)
 })
 
+// Leyendo el contenido de un directorio
 function readDirectory(route){
   return new Promise((resolve, reject)=>{
     fs.readdir(route, 'utf-8', function(err,files){
@@ -80,7 +83,7 @@ readDirectory(routeDir)
   //console.log(err)
 })
 
-// extrayendo links con el metodo map
+// extrayendo links
 function getLinks(route, dataFile){
   const getLink = markdownLinkExtractor(dataFile, true)
   //console.log(getLink)
@@ -93,7 +96,7 @@ function getLinks(route, dataFile){
 }
  //console.log(getLinks(routeFile, markdown))
 
-// recibir un array de objetos y hacer peticion http para conocer el status de la pagina
+//  peticion http para conocer el status de la pagina
 function getHttpRequest(linkUrl){
   //console.log(linkUrl)
   return new Promise ((resolve) => {
@@ -134,9 +137,29 @@ getHttpRequest(
 //'https://http.cat/'
 
 
-// function mdLinks(path, options){
-//   const
-// }
+function mdLinks(path){
+  return new Promise ((resolve, reject) => {
+    const routeVerify = routeAbsolute(path.href);
+    resolve(routeVerify)
+  })
+}
+
+mdLinks({
+  href: (routeFile),
+  // text: 'texto',
+  // file: 'ruta del archivo'
+})
+.then(links => {
+  console.log(links)
+})
+.catch(console.error)
+
+
+module.exports = { routeAbsolute, readFiles, extFiles, readDirectory, getLinks, getHttpRequest }
+//module.exports = { getHttpRequest }
+
+
+
 
 // function getLinks(route, dataFile){
 //   const getLink = markdownLinkExtractor(dataFile, true)
